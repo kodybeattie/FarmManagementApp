@@ -1,8 +1,12 @@
+using FarmManagementApp.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+var connString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<FarmContext>(x=>x.UseSqlServer(connString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
