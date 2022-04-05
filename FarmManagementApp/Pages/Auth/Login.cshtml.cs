@@ -39,7 +39,8 @@ namespace FarmManagementApp.Pages.Auth
 
             if (isUser) {
                 Models.User findUser = _context.Users.FirstOrDefault(m => m.Email == User.Email && m.Password == User.Password);
-                Console.WriteLine(findUser.Email + " " + findUser.Password);
+                HttpContext.Session.SetString("_email",findUser.Email);
+                HttpContext.Session.SetInt32("_logged_in", 1);
             }
             else {
                 return Page();
