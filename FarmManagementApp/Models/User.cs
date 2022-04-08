@@ -8,5 +8,7 @@ namespace FarmManagementApp.Models
         public Guid Guid { get; set; }
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
+
+        public virtual UserProfile UserProfile { get; set; } = null!;
     }
 }
