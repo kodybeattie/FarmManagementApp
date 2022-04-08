@@ -18,7 +18,9 @@ namespace FarmManagementApp.Models
         {
         }
 
+        public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserProfile> UserProfiles { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,6 +33,20 @@ namespace FarmManagementApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.HasKey(e => e.Guid)
+                    .HasName("PK__Role__A2B5777CE0B30C4B");
+
+                entity.ToTable("Role");
+
+                entity.Property(e => e.Guid).ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Guid)
@@ -47,6 +63,36 @@ namespace FarmManagementApp.Models
                 entity.Property(e => e.Password)
                     .HasMaxLength(40)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<UserProfile>(entity =>
+            {
+                entity.HasKey(e => e.UserGuid)
+                    .HasName("PK__UserProf__99B7F23A7F73AF83");
+
+                entity.ToTable("UserProfile");
+
+                entity.Property(e => e.UserGuid).ValueGeneratedNever();
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.RoleGu)
+                    .WithMany(p => p.UserProfiles)
+                    .HasForeignKey(d => d.RoleGuid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__UserProfi__RoleG__4D94879B");
+
+                entity.HasOne(d => d.UserGu)
+                    .WithOne(p => p.UserProfile)
+                    .HasForeignKey<UserProfile>(d => d.UserGuid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__UserProfi__UserG__4CA06362");
             });
 
             OnModelCreatingPartial(modelBuilder);

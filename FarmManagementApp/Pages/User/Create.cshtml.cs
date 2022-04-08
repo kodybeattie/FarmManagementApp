@@ -30,15 +30,23 @@ namespace FarmManagementApp.Pages.User
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
             _context.Users.Add(User);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            Models.User currUser = _context.Users.FirstOrDefault(u => u.Email == User.Email);
+            Models.UserProfile profile = new Models.UserProfile();
+            profile.UserGuid = currUser.Guid;
+            profile.FirstName = "";
+            profile.LastName = "";
+            profile.RoleGuid = _context.Roles.FirstOrDefault(u => u.Name == "User").Guid;
+            _context.UserProfiles.Add(profile);
+            await _context.SaveChangesAsync();
+
+            HttpContext.Session.SetString("_email", currUser.Email);
+            HttpContext.Session.SetString("_guid", currUser.Guid.ToString());
+            HttpContext.Session.SetInt32("_logged_in", 1);
+
+            return RedirectToPage("../UserProfile/Edit");
         }
     }
 }

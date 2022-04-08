@@ -16,6 +16,7 @@ namespace FarmManagementApp.Pages.Auth
         {
             HttpContext.Session.SetString("_email", "");
             HttpContext.Session.SetInt32("_logged_in", 0);
+            HttpContext.Session.SetString("_guid","");
 
             return RedirectToPage("../Index");
         }

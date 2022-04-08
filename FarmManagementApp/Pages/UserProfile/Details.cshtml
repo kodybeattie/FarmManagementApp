@@ -1,0 +1,43 @@
+﻿@page
+@model FarmManagementApp.Pages.UserProfile.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>UserProfile</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserProfile.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserProfile.RoleGu)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.RoleGu.Guid)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserProfile.UserGu)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserProfile.UserGu.Guid)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.UserProfile.UserGuid">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
