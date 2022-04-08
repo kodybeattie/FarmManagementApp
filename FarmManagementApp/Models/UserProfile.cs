@@ -9,6 +9,8 @@ namespace FarmManagementApp.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public Guid RoleGuid { get; set; }
+        public string? Phone { get; set; }
+        public string? Extension { get; set; }
 
         public virtual Role RoleGu { get; set; } = null!;
         public virtual User UserGu { get; set; } = null!;

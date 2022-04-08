@@ -18,6 +18,7 @@ namespace FarmManagementApp.Models
         {
         }
 
+        public virtual DbSet<Farm> Farms { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserProfile> UserProfiles { get; set; } = null!;
@@ -33,6 +34,47 @@ namespace FarmManagementApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Farm>(entity =>
+            {
+                entity.HasKey(e => e.Guid)
+                    .HasName("PK__Farm__A2B5777CBDA2C794");
+
+                entity.ToTable("Farm");
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Country)
+                    .HasMaxLength(30)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MainEmail)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MainPhone)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(75)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PostalZipCode)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("Postal_Zip_Code");
+
+                entity.Property(e => e.StateProv)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("State_Prov");
+
+                entity.HasOne(d => d.HeadManagerNavigation)
+                    .WithMany(p => p.Farms)
+                    .HasForeignKey(d => d.HeadManager)
+                    .HasConstraintName("FK__Farm__HeadManage__5165187F");
+            });
+
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.HasKey(e => e.Guid)
@@ -40,7 +82,7 @@ namespace FarmManagementApp.Models
 
                 entity.ToTable("Role");
 
-                entity.Property(e => e.Guid).ValueGeneratedNever();
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(30)
@@ -63,6 +105,11 @@ namespace FarmManagementApp.Models
                 entity.Property(e => e.Password)
                     .HasMaxLength(40)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.FarmGu)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.FarmGuid)
+                    .HasConstraintName("FK__User__FarmGuid__52593CB8");
             });
 
             modelBuilder.Entity<UserProfile>(entity =>
@@ -74,12 +121,20 @@ namespace FarmManagementApp.Models
 
                 entity.Property(e => e.UserGuid).ValueGeneratedNever();
 
+                entity.Property(e => e.Extension)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.FirstName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.LastName)
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.RoleGu)
