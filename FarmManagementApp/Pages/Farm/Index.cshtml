@@ -1,0 +1,72 @@
+﻿@page
+@model FarmManagementApp.Pages.Farm.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Farm[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Farm[0].StateProv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Farm[0].Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Farm[0].PostalZipCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Farm[0].MainPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Farm[0].MainEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Farm[0].HeadManagerNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Farm) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StateProv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostalZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MainPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MainEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HeadManagerNavigation.Guid)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Guid">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Guid">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Guid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
