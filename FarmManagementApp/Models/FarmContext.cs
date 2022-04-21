@@ -8,7 +8,6 @@ namespace FarmManagementApp.Models
     public partial class FarmContext : DbContext
     {
         private readonly IConfiguration _config;
-
         public FarmContext()
         {
         }

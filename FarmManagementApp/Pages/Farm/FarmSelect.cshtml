@@ -1,0 +1,20 @@
+﻿@page
+@model FarmManagementApp.Pages.Farm.FarmSelectModel
+
+@{
+    ViewData["Title"] = "Farm Select";
+}
+
+<h1>Farm Select</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <select asp-for="selectedFarm" asp-items="Model.farmList"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Access Farm" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
