@@ -12,9 +12,13 @@ namespace FarmManagementApp.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
-
+            if (HttpContext.Session.GetInt32("_logged_in") == 1) {
+                return Page();
+            } else {
+                return RedirectToPage("/Farm/FarmSelect");
+            }
         }
     }
 }
