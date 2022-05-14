@@ -23,6 +23,9 @@ namespace FarmManagementApp.Pages.Farm
         [BindProperty]
         public string selectedFarm { get; set; }
 
+        [BindProperty]
+        public FarmManagementApp.Models.User User { get; set; }
+
         public List<SelectListItem> farmList { get; set; }
 
         public async Task OnGetAsync()
@@ -33,11 +36,23 @@ namespace FarmManagementApp.Pages.Farm
             }).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
+        public async Task<IActionResult> OnPostAsync() {
             HttpContext.Session.SetString("_farmGuid", selectedFarm);
-            Console.WriteLine("Selected: " + selectedFarm);
-            return RedirectToPage("../Auth/Login");
+            bool isUser = _context.Users.Any(m => m.FarmGuid.ToString() == selectedFarm && m.Email == User.Email && m.Password == User.Password);
+
+            if (isUser)
+            {
+                Models.User findUser = _context.Users.FirstOrDefault(m => m.FarmGuid.ToString() == selectedFarm && m.Email == User.Email && m.Password == User.Password);
+                HttpContext.Session.SetString("_email", findUser.Email);
+                HttpContext.Session.SetString("_guid", findUser.Guid.ToString());
+                HttpContext.Session.SetInt32("_logged_in", 1);
+            }
+            else
+            {
+                return Page();
+            }
+
+            return RedirectToPage("../Index");
         }
     }
 }
