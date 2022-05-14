@@ -34,6 +34,15 @@
                             </li>
                         } else
                         {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Employees 
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/User/Create">Add Employee</a></li>
+                                    <li><a class="dropdown-item" href="/User/Index">Review Employees</a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/UserProfile/Edit">@Context.Session.GetString("_email")</a>
                             </li>
